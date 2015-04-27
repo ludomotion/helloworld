@@ -10,11 +10,17 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)HelloWorldGame.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)HelloWorldMessages.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mobs\Components\KeyboardInput.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mobs\Player.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PlayState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)World.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Sprites\character.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sprites\roguelike.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
