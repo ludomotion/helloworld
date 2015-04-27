@@ -10,6 +10,9 @@ namespace HelloWorld
     public class Sprites
     {
 
+        /// <summary>
+        /// Width: 56 tiles
+        /// </summary>
         public static readonly Sprite Roguelike;
 
         static Sprites()

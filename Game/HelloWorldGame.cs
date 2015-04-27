@@ -1,6 +1,4 @@
-﻿using Microsoft.Xna.Framework.Graphics;
-using Phantom;
-using System;
+﻿using Phantom;
 using System.Diagnostics;
 
 namespace HelloWorld
