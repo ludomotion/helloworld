@@ -1,5 +1,6 @@
 ﻿using HelloWorld.Mobs.Components;
 using Microsoft.Xna.Framework;
+using Phantom.Audio;
 using Phantom.Core;
 using Phantom.Misc;
 using System;
@@ -40,9 +41,10 @@ namespace HelloWorld.Mobs
 
         public override void HandleMessage(Message message)
         {
-            if (message == HelloWorldMessages.Attack1)
+            if (message == HelloWorldMessages.Attack1 && this.attack <= 0)
             {
                 this.attack = 0.5f;
+                Sound.Play("strike");
             }
             base.HandleMessage(message);
         }

@@ -1,4 +1,6 @@
-﻿using Phantom;
+﻿using Microsoft.Xna.Framework.Audio;
+using Phantom;
+using Phantom.Audio;
 using System.Diagnostics;
 
 namespace HelloWorld
@@ -8,6 +10,10 @@ namespace HelloWorld
         public HelloWorldGame()
             : base(1280, 720, "HelloWorld")
         {
+
+            XnaGame.Content.RootDirectory = "./Assets";
+            Audio.Initialize(this);
+
         }
 
         public override void SetupGraphics()
@@ -26,11 +32,20 @@ namespace HelloWorld
         protected override void Initialize()
         {
             base.Initialize();
-            XnaGame.Content.RootDirectory = "./Assets";
+
+            this.Content.SwitchContext("game");
+            var sprites = typeof(Sprites); // Loads the class, which loads the sprites!
 
 
             Debug.WriteLine("HelloWorld initialized!");
             PushState(new PlayState());
+        }
+
+        protected override void LoadContent(Phantom.Core.Content content)
+        {
+            Audio.RegisterSound("game", "Audio/Sounds/strike");
+
+            base.LoadContent(content);
         }
 
         public override void Update(float elapsed)
