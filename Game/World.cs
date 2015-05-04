@@ -31,6 +31,13 @@ namespace HelloWorld
                 return new Vector2(this.spawnTile % this.size, this.spawnTile / this.size) * TileSize + Vector2.One * TileSize * .5f;
             }
         }
+        public Vector2 ExitPoint
+        {
+            get
+            {
+                return new Vector2(this.exitTile % this.size, this.exitTile / this.size) * TileSize + Vector2.One * TileSize * .5f;
+            }
+        }
 
         private int size;
         private int iterations;
@@ -39,7 +46,8 @@ namespace HelloWorld
         private int[] cells;
         private int[] rooms;
         private int[] groundFrames = { FrameGrass, FrameDirt, FrameStone, FrameSalt };
-        private int spawnTile;
+        private int spawnTile = -1;
+        private int exitTile = -1;
 
         public World(int size = 160, int iterations=4, int seed=0)
         {
@@ -116,6 +124,10 @@ namespace HelloWorld
                 if (a[i] == NONE && this.rooms[i] == largest)
                 {
                     this.spawnTile = i;
+                    if (this.exitTile < 0)
+                    {
+                        this.exitTile = i;
+                    }
                 }
             }
 
@@ -134,7 +146,6 @@ namespace HelloWorld
                 if (this.cells[i] == WALL && this.CountNeighnors(this.cells, i, WALL) < 8)
                 {
                     e = new Entity(p);
-                    e.InitiateCollision = false;
                     e.AddComponent(new OABB(offset));
                 }
                 else if (this.cells[i] > TREE)
@@ -147,6 +158,8 @@ namespace HelloWorld
                 {
                     continue;
                 }
+                e.InitiateCollision = false;
+                e.UpdateBehaviour = Entity.UpdateBehaviours.NeverUpdate;
                 component.AddComponent(e);
             }
         }

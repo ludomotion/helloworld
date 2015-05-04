@@ -32,8 +32,8 @@ namespace HelloWorld.Mobs
         private int frame;
         private float attack = 0;
 
-        public Player(Vector2 position)
-            : base(position)
+        public Player(Vector2? position = null)
+            : base(position ?? Vector2.Zero)
         {
             AddComponent(new Mover(Vector2.Zero, .9f, 0.9f, 0));
             AddComponent(new Circle(5));

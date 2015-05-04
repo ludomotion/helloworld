@@ -1,11 +1,14 @@
 ﻿using HelloWorld.Mobs;
+using HelloWorld.Statics;
 using Microsoft.Xna.Framework;
 using Phantom;
 using Phantom.Cameras;
 using Phantom.Cameras.Components;
 using Phantom.Core;
 using Phantom.Graphics;
+using Phantom.Misc.Components;
 using Phantom.Physics;
+using Phantom.Shapes;
 
 namespace HelloWorld
 {
@@ -15,7 +18,7 @@ namespace HelloWorld
         public Player Player { get; private set; }
         public EntityLayer Entities { get; private set; }
 
-        public PlayState()
+        public PlayState(Player player = null)
         {
             var size = 160;
             this.Entities = new EntityLayer(
@@ -28,7 +31,11 @@ namespace HelloWorld
             this.Entities.AddComponent(this.World = new World(size, 5, PhantomGame.Randy.Next()));
             this.World.Generate();
 
-            this.Entities.AddComponent(this.Player = new Player(this.World.SpawnPoint));
+            this.Player = player ?? new Player();
+            this.Entities.AddComponent(this.Player);
+            this.Player.Position = this.World.SpawnPoint;
+
+            this.Entities.AddComponent(new Exit(this.World.ExitPoint));
 
             this.AddComponent(new Camera());
             this.Camera.AddComponent(new RestrictCamera(this.Entities));
@@ -37,6 +44,15 @@ namespace HelloWorld
 
 
             AddComponent(this.Entities);
+        }
+
+        public override void HandleMessage(Message message)
+        {
+            if (message == HelloWorldMessages.Exit)
+            {
+                PhantomGame.Game.PopAndPushState(new PlayState(this.Player));
+            }
+            base.HandleMessage(message);
         }
 
     }
