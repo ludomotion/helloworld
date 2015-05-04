@@ -2,7 +2,9 @@
 using Microsoft.Xna.Framework;
 using Phantom.Audio;
 using Phantom.Core;
+using Phantom.Graphics;
 using Phantom.Misc;
+using Phantom.Shapes;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -34,6 +36,7 @@ namespace HelloWorld.Mobs
             : base(position)
         {
             AddComponent(new Mover(Vector2.Zero, .9f, 0.9f, 0));
+            AddComponent(new Circle(5));
             AddComponent(new KeyboardInput());
 
             this.Orientation = MathHelper.PiOver2;
@@ -79,31 +82,32 @@ namespace HelloWorld.Mobs
 
         public override void Render(Phantom.Graphics.RenderInfo info)
         {
+            Vector2 pos = this.Position + new Vector2(0, -4);
             switch (this.Facing)
             {
                 case North:
                     if (this.Attacking)
-                        Sprites.Character.RenderFrame(info, 8, this.Position);
+                        Sprites.Character.RenderFrame(info, 8, pos);
                     else
-                        Sprites.Character.RenderFrame(info, 0 + this.frame, this.Position);
+                        Sprites.Character.RenderFrame(info, 0 + this.frame, pos);
                     break;
                 case East:
                     if (this.Attacking)
-                        Sprites.Character.RenderFrame(info, 13, this.Position);
+                        Sprites.Character.RenderFrame(info, 13, pos);
                     else
-                        Sprites.Character.RenderFrame(info, 5 + this.frame, this.Position);
+                        Sprites.Character.RenderFrame(info, 5 + this.frame, pos);
                     break;
                 case South:
                     if (this.Attacking)
-                        Sprites.Character.RenderFrame(info, 4, this.Position);
+                        Sprites.Character.RenderFrame(info, 4, pos);
                     else
-                        Sprites.Character.RenderFrame(info, 10 + this.frame, this.Position);
+                        Sprites.Character.RenderFrame(info, 10 + this.frame, pos);
                     break;
                 case West:
                     if (this.Attacking)
-                        Sprites.Character.RenderFrame(info, 19, this.Position);
+                        Sprites.Character.RenderFrame(info, 19, pos);
                     else
-                        Sprites.Character.RenderFrame(info, 15 + this.frame, this.Position);
+                        Sprites.Character.RenderFrame(info, 15 + this.frame, pos);
                     break;
             }
             base.Render(info);

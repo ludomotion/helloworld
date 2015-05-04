@@ -44,6 +44,8 @@ namespace HelloWorld.Mobs.Components
                 this.Entity.Mover.Velocity += new Vector2(0, 1);
             }
             this.Entity.Mover.Velocity *= Speed;
+            if (current.IsKeyDown(Keys.LeftShift))
+                this.Entity.Mover.Velocity *= Speed;
 
             if (current.IsKeyDown(Attack1) && previous.IsKeyUp(Attack1))
                 this.Parent.HandleMessage(HelloWorldMessages.Attack1);

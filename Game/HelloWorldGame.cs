@@ -26,6 +26,7 @@ namespace HelloWorld
             this.SetResolution((int)this.Width, (int)this.Height, false);
             XnaGame.IsMouseVisible = true;
 #endif
+            this.SetResolution((int)this.Width, (int)this.Height, false);
 
         }
 

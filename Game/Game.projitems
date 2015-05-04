@@ -11,6 +11,8 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)HelloWorldGame.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)HelloWorldMessages.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Misc\CCL.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Misc\UnionFind.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mobs\Components\KeyboardInput.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mobs\Player.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PlayState.cs" />
