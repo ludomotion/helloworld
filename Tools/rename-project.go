@@ -103,7 +103,6 @@ func walkProject(projectPath string, replacer *strings.Replacer) (gitdir string)
 	for changed {
 		changed = false
 		filepath.Walk(projectPath, func(path string, info os.FileInfo, err error) error {
-			path, _ = filepath.Abs(path)
 			if info.IsDir() && (info.Name() == ".git" || excludeDir[info.Name()]) {
 				return filepath.SkipDir
 			}
@@ -112,8 +111,7 @@ func walkProject(projectPath string, replacer *strings.Replacer) (gitdir string)
 			}
 			relpath, _ := filepath.Rel(projectPath, path)
 			newpath := filepath.Join(projectPath, replacer.Replace(relpath))
-			if path != newpath && !excludeExtensions[filepath.Ext(path)] {
-				fmt.Println(path, newpath)
+			if filepath.Clean(path) != filepath.Clean(newpath) && !excludeExtensions[filepath.Ext(path)] {
 				os.Rename(path, newpath)
 				changed = true
 			}
@@ -138,17 +136,7 @@ func removeRemote(gitdir string) {
 
 func findProjectPath() string {
 
-	pwd, _ := os.Getwd()
-	_, caller, _, _ := runtime.Caller(1)
-
-	var paths []string
-	for _, rel := range [...]string{"", "..", "helloworld"} {
-		paths = append(paths, path.Join(path.Dir(caller), rel))
-		paths = append(paths, path.Join(path.Dir(os.Args[0]), rel))
-		paths = append(paths, path.Join(path.Dir(pwd), rel))
-	}
-
-	for _, p := range paths {
+	for _, p := range []string{"./", "../"} {
 		if _, err := os.Stat(path.Join(p, "HelloWorld.sln")); err == nil {
 			return p
 		}
@@ -175,7 +163,8 @@ func main() {
 		originalName = strings.Trim(prompt("Project Name (space seperated, ex. Hello World): "), " \r\n")
 	}
 	originalName = strings.Title(strings.ToLower(originalName))
-	fmt.Println("Renaming Project:", projectPath, " <<< check this path!")
+	absProjectPath, _ := filepath.Abs(projectPath)
+	fmt.Println("Renaming Project:", absProjectPath, " <<< check this path!")
 	fmt.Println("Title: Hello World ->", originalName)
 
 	a := prompt("Are you sure? ")
