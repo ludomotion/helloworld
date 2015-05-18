@@ -1,0 +1,13 @@
+#!/bin/bash
+# MonoKickstart Shell Script
+# Written by Ethan "flibitijibibo" Lee
+
+# Move to script's directory
+cd "`dirname "$0"`"
+
+# Get the system architecture
+UNAME=`uname`
+ARCH=`uname -m`
+
+export DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:./osx/
+./helloworld.bin.osx $@

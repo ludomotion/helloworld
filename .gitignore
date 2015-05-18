@@ -32,3 +32,4 @@ publish
 *TemporaryKey.pfx
 *.speccache
 Thumbs.db
+/Dist
