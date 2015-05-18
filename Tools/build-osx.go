@@ -195,7 +195,7 @@ func ZipDir(srcdir, destfile string) (err error) {
 			return nil
 		}
 
-		zf, err := zp.Create(relpath)
+		zf, err := zp.Create(strings.Replace(relpath, "\\", "/", -1))
 		if err != nil {
 			return err
 		}
