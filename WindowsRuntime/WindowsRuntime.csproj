@@ -74,4 +74,22 @@
   </ItemGroup>
   <Import Project="..\Game\Game.projitems" Label="Shared" Condition="Exists('..\Game\Game.projitems')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <AssetsFiles Include="
+                 $(MSBuildThisFileDirectory)..\Assets\**\*.png;
+                 $(MSBuildThisFileDirectory)..\Assets\**\*.wav;
+                 ">
+      <InProject>false</InProject>
+    </AssetsFiles>
+  </ItemGroup>
+  <Target Name="CopyAssetsToOutputDirectory">
+    <Copy
+      SourceFiles="@(AssetsFiles)"
+      DestinationFolder="$(TargetDir)\Assets\%(RecursiveDir)"
+      SkipUnchangedFiles="true"
+      />
+  </Target>
+  <PropertyGroup>
+    <PrepareForRunDependsOn>$(PrepareForRunDependsOn);CopyAssetsToOutputDirectory</PrepareForRunDependsOn>
+  </PropertyGroup>
 </Project>

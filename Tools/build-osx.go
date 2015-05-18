@@ -3,7 +3,6 @@ package main
 import (
 	"archive/zip"
 	"bytes"
-	"github.com/libgit2/git2go"
 	"io"
 	"io/ioutil"
 	"log"
@@ -73,33 +72,27 @@ func ProjectInfo(projectpath string) (info Info, err error) {
 	return
 }
 
-func GitStatus(path string) (dirty bool, shortrev string, err error) {
-	repo, err := git.OpenRepository(path)
+func GitStatus(prjpath string) (dirty bool, shortrev string, err error) {
+
+	// haxx, for windows gitextension users:
+	git := "C:/Program Files (x86)/Git/bin/git.exe"
+	_, err = exec.Command(git, "--help").CombinedOutput()
 	if err != nil {
-		return
+		git = "git"
+		err = nil
 	}
 
-	head, err := repo.Head()
+	out, err := exec.Command(git, "--work-tree", prjpath, "status").CombinedOutput()
 	if err != nil {
 		return
 	}
-	headCommit, err := repo.LookupCommit(head.Target())
-	if err != nil {
-		return
-	}
+	dirty = !strings.Contains(string(out), "working directory clean")
 
-	status, err := repo.StatusList(&git.StatusOptions{})
+	out, err = exec.Command(git, "--work-tree", prjpath, "rev-list", "--max-count=1", "--abbrev-commit", "HEAD").CombinedOutput()
 	if err != nil {
 		return
 	}
-
-	entryCount, err := status.EntryCount()
-	if err != nil {
-		return
-	}
-
-	dirty = entryCount != 0
-	shortrev = headCommit.Id().String()[:8]
+	shortrev = strings.Trim(string(out), " \r\n")
 
 	return
 }
@@ -107,7 +100,12 @@ func GitStatus(path string) (dirty bool, shortrev string, err error) {
 func BuildSolution(slnfile string) (err error) {
 	var build = BuildExecutableUnix
 	if runtime.GOOS == "windows" {
-		build = BuildExecutableWindows
+		matches, err := filepath.Glob("c:/Windows/Microsoft.NET/Framework/v4*/MSBuild.exe")
+		if err == nil {
+			build = matches[len(matches)-1]
+		} else {
+			build = BuildExecutableWindows
+		}
 	}
 
 	out, err := exec.Command(build, slnfile, "/t:Rebuild", "/p:Configuration=Release").CombinedOutput()
