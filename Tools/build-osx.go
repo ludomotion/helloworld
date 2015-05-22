@@ -71,7 +71,7 @@ func main() {
 	bail(err)
 	os.Chmod(plistFile, 0644)
 
-	matches, err := filepath.Glob(filepath.Join(projectpath, "Game/Assets/*.icns"))
+	matches, err := filepath.Glob(filepath.Join(projectpath, "Assets/*.icns"))
 	bail(err)
 	if len(matches) >= 1 {
 		err = lib.CopyFile(matches[0], filepath.Join(resDir, info.Slug+".icns"))
