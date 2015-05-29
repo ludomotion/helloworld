@@ -10,6 +10,9 @@ namespace HelloWorld
         public HelloWorldGame()
             : base(1280, 720, "HelloWorld")
         {
+            Debug.WriteLine("Testing output: Debug");
+            Trace.WriteLine("Testing output: Trace");
+            System.Console.WriteLine("Testing output: Console");
 
             XnaGame.Content.RootDirectory = "./Assets";
             Audio.Initialize(this);
