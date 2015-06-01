@@ -8,7 +8,7 @@ used at Ludomotion as skeleton for new projects.
  * A basic Phantom setup;
    - the Konsoul
    - one [GameState](Game/PlayState.cs) with an entity layer
-   - a tiled [world](Game/World.cs) and a [player](Game/Player.cs) with basic collision
+   - a tiled [world](Game/World.cs) and a [player](Game/Mobs/Player.cs) with basic collision
  * Textures, phonts and audio.
  * Fullscreen toggle.
  * Build-tools to publish for Windows or OSX.

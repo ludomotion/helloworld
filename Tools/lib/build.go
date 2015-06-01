@@ -3,6 +3,7 @@ package lib
 import (
 	"io/ioutil"
 	"log"
+	"os"
 	"os/exec"
 	"path/filepath"
 	"regexp"
@@ -73,7 +74,7 @@ func ProjectInfo(projectpath string) (info Info, err error) {
 	return
 }
 
-func BuildSolution(slnfile string) (err error) {
+func BuildSolution(info *Info) (err error) {
 	var build = BuildExecutableUnix
 	if runtime.GOOS == "windows" {
 		matches, err := filepath.Glob("c:/Windows/Microsoft.NET/Framework/v4*/MSBuild.exe")
@@ -84,7 +85,11 @@ func BuildSolution(slnfile string) (err error) {
 		}
 	}
 
-	out, err := exec.Command(build, slnfile, "/t:Rebuild", "/p:Configuration=Release").CombinedOutput()
+	// Clean Release folder:
+	releasepath := filepath.Join(info.Path, "WindowsRuntime/bin/Release")
+	os.RemoveAll(releasepath)
+
+	out, err := exec.Command(build, info.SlnFile, "/t:Rebuild", "/p:Configuration=Release").CombinedOutput()
 	if err != nil {
 		log.Println(string(out))
 		err = &BuildError{err.Error(), out, err}

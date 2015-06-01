@@ -128,7 +128,7 @@ func main() {
 
 	// Run msbuild
 	log.Println("Building project in release...")
-	err = lib.BuildSolution(info.SlnFile)
+	err = lib.BuildSolution(&info)
 	bail(err)
 	log.Println("Done.")
 
