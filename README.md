@@ -27,6 +27,18 @@ $ go run rename-project.go ../ New Project
  4. Enter a new project name
 
 
+Publish
+-------
+
+##### Windows Build:
+ * Install NSIS (on the default location): http://nsis.sourceforge.net/Main_Page
+ * Execute (double-click) the ./Tools/**build-windows.exe**
+
+
+##### Mac OSX Build:
+ * Execute (double-click) the ./Tools/**build-osx.exe**
+
+
 Assets
 ------
 

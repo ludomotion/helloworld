@@ -1,5 +1,6 @@
 ﻿using HelloWorld.Mobs.Components;
 using Microsoft.Xna.Framework;
+using Phantom;
 using Phantom.Audio;
 using Phantom.Core;
 using Phantom.Graphics;

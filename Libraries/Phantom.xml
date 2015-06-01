@@ -4,6 +4,21 @@
         <name>Phantom</name>
     </assembly>
     <members>
+        <member name="F:Phantom.Assets.PhantomAssets.White">
+            <summary>
+            A simple 1x1 white pixel.
+            </summary>
+        </member>
+        <member name="F:Phantom.Assets.PhantomAssets.Sans16">
+            <summary>
+            A plain sans font 16 pixels in height.
+            </summary>
+        </member>
+        <member name="F:Phantom.Assets.PhantomAssets.Courier20Bold">
+            <summary>
+            Courier New, Bold, 20 pixels in height.
+            </summary>
+        </member>
         <member name="T:Phantom.Core.Component">
             <summary>
             The Component class is the heart of the Phantom engine. It follows a lean implementation

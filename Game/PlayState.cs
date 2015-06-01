@@ -9,6 +9,7 @@ using Phantom.Graphics;
 using Phantom.Misc.Components;
 using Phantom.Physics;
 using Phantom.Shapes;
+using System.Diagnostics;
 
 namespace HelloWorld
 {
@@ -24,11 +25,12 @@ namespace HelloWorld
             this.Entities = new EntityLayer(
                 size * HelloWorld.World.TileSize, 
                 size * HelloWorld.World.TileSize, 
-                new Renderer(1, Renderer.ViewportPolicy.Fit, Renderer.RenderOptions.Canvas), 
+                new Renderer(1, Renderer.ViewportPolicy.None, Renderer.RenderOptions.Canvas), 
                 new TiledIntegrator(1, HelloWorld.World.TileSize)
             );
 
-            this.Entities.AddComponent(this.World = new World(size, 5, PhantomGame.Randy.Next()));
+            this.World = new World(size, 5, PhantomGame.Randy.Next());
+            this.Entities.AddComponent(this.World);
             this.World.Generate();
 
             this.Player = player ?? new Player();
@@ -44,6 +46,7 @@ namespace HelloWorld
 
 
             AddComponent(this.Entities);
+            Debug.WriteLine("PlayState constructed");
         }
 
         public override void HandleMessage(Message message)
