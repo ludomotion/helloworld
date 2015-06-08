@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Audio;
+﻿using HelloWorld.Utils;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Phantom;
@@ -7,6 +8,7 @@ using Phantom.Audio;
 using Phantom.Core;
 using Phantom.Graphics;
 using Phantom.Misc;
+using Phantom.Utils;
 using System.Diagnostics;
 
 namespace HelloWorld
@@ -24,20 +26,16 @@ namespace HelloWorld
 
             XnaGame.Content.RootDirectory = "./Assets";
             Audio.Initialize(this);
-
         }
 
         public override void SetupGraphics()
         {
             base.SetupGraphics();
-
             graphics.PreferMultiSampling = false;
 
 #if DEBUG // Play window-mode when debugging:
             this.SetResolution((int)this.Width, (int)this.Height, false);
             XnaGame.IsMouseVisible = true;
-#else
-            this.SetResolution(0,0,true);
 #endif
 
         }
@@ -52,12 +50,32 @@ namespace HelloWorld
             {
                 this.SetResolution(0, 0, true);
             }
+            Settings.FullScreen = this.graphics.IsFullScreen;
         }
 
         protected override void Initialize()
         {
             base.Initialize();
+            AddComponent(new Storage());
+            Debug.WriteLine("StateFile: " + GetComponentByType<Storage>().StateFile);
+            Debug.WriteLine("LastSaved: " + Storage.LastSaved);
+
+#if !DEBUG
+            if (this.graphics.IsFullScreen != Settings.FullScreen)
+                ToggleFullscreen();
+#endif
+
+            AddComponent(Asynchrony.Instance);
             AddComponent(new Konsoul());
+
+            // Example usage of the Konsoul and the asynchrony:
+            PhantomGame.Game.Console.Register("crash", "cause an exception", delegate(string[] argv){
+                Asynchrony.Instance.Dispatch(() =>
+                {
+                    int j = 0;
+                    int i = 5 / j;
+                });
+            });
 
             this.Content.SwitchContext("game");
             var sprites = typeof(Sprites); // Loads the class, which loads the sprites!

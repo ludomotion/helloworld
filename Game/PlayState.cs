@@ -1,5 +1,6 @@
 ﻿using HelloWorld.Mobs;
 using HelloWorld.Statics;
+using HelloWorld.Utils;
 using Microsoft.Xna.Framework;
 using Phantom;
 using Phantom.Cameras;
@@ -9,12 +10,16 @@ using Phantom.Graphics;
 using Phantom.Misc.Components;
 using Phantom.Physics;
 using Phantom.Shapes;
+using System;
 using System.Diagnostics;
 
 namespace HelloWorld
 {
     public class PlayState : GameState
     {
+        [Saved(defaultValue = 42, version=1)]
+        public static int MostRecentLevelSeed;
+
         public World World { get; private set; }
         public Player Player { get; private set; }
         public EntityLayer Entities { get; private set; }
@@ -29,7 +34,7 @@ namespace HelloWorld
                 new TiledIntegrator(1, HelloWorld.World.TileSize)
             );
 
-            this.World = new World(size, 5, PhantomGame.Randy.Next());
+            this.World = new World(size, 5, MostRecentLevelSeed);
             this.Entities.AddComponent(this.World);
             this.World.Generate();
 
@@ -53,6 +58,7 @@ namespace HelloWorld
         {
             if (message == HelloWorldMessages.Exit)
             {
+                MostRecentLevelSeed = new Random(MostRecentLevelSeed).Next();
                 PhantomGame.Game.PopAndPushState(new PlayState(this.Player));
             }
             base.HandleMessage(message);

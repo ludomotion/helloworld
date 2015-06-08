@@ -16,8 +16,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Mobs\Components\KeyboardInput.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mobs\Player.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PlayState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Settings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Statics\Exit.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utils\Storage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)World.cs" />
   </ItemGroup>
 </Project>
